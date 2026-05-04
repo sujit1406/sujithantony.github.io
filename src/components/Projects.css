@@ -85,11 +85,12 @@
 .project-emoji {
   position: relative;
   z-index: 1;
-  transition: transform 0.3s ease;
+  transition: opacity 0.3s ease;
+  opacity: 1;
 }
 
 .project-card:hover .project-emoji {
-  transform: scale(1.2);
+  opacity: 0;
 }
 
 .project-overlay {

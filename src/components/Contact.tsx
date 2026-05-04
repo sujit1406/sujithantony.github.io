@@ -8,10 +8,33 @@ const Contact = () => {
     email: '',
     message: '',
   })
+  const [errors, setErrors] = useState({ email: '' })
+
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(email)
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
+    const newErrors: { email: string } = { email: '' }
+    let isValid = true
+
+    if (!validateEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email address'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+
+    if (isValid) {
+      const subject = `Portfolio Contact: ${formData.name}`
+      const body = `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage: ${formData.message}`
+      const mailtoLink = `mailto:mail2say@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+      window.location.href = mailtoLink
+      setFormData({ name: '', email: '', message: '' })
+      setErrors({ email: '' })
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -19,6 +42,9 @@ const Contact = () => {
       ...formData,
       [e.target.name]: e.target.value,
     })
+    if (e.target.name === 'email') {
+      setErrors({ ...errors, email: '' })
+    }
   }
 
   return (
@@ -128,6 +154,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                 />
+                {errors.email && <span className="error-text">{errors.email}</span>}
               </div>
               <div className="form-group">
                 <textarea
