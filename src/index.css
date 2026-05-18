@@ -33,6 +33,13 @@ body {
   min-height: 100vh;
 }
 
+@media (max-width: 768px) {
+  body {
+    background-image: url('/plant_mobil1.jpg');
+    background-attachment: scroll; /* Better performance on mobile devices */
+  }
+}
+
 .noise-overlay {
   position: fixed;
   top: 0;
